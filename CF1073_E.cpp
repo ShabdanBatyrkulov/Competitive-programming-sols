@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <algorithm>
+#include <memory.h>
 
 using namespace std;
 
@@ -42,9 +43,9 @@ int calcdp1(int pos, int mask, int f) {
 	
 }
 int calcdp2(int pos, int mask, int f) {
-	if (pos >= len) return 1;
+	if (pos >= len) return 0;
 	if (u2[pos][mask][f]) return dp2[pos][mask][f];
-	printf("%d %d %d\n", pos, mask, f);
+	// printf("%d %d %d\n", pos, mask, f);
 	int &res = dp2[pos][mask][f];
 	res = 0;
 	u2[pos][mask][f] = 1;
@@ -66,8 +67,23 @@ int calcdp2(int pos, int mask, int f) {
 	return res;
 }
 
+int binpow(int a, int n) {
+	int res = 1;
+	while (n) {
+		if (n & 1)
+			res = mult(res, a);
+		a = mult(a, a);
+		n >>= 1;
+	}
+	return res;
+}
+
 
 int solve(int x) {
+	memset(dp1, 0, sizeof dp1);
+	memset(dp2, 0, sizeof dp2);
+	memset(u1, 0, sizeof u1);
+	memset(u2, 0, sizeof u2);
 	len = 0;
 	while (x) {
 		num[len] = x % 10;
@@ -75,7 +91,9 @@ int solve(int x) {
 		len++;
 	}
 	reverse(num, num + len);
-	return calcdp1(0, 0, 1);
+	int res = calcdp2(0, 0, 1);
+	res = add(res, mult(pw[len - 1], mult(add(pw[len - 1], mod - 1), binpow(2, mod - 2))));
+	return res;
 }
 
 main() {
@@ -87,5 +105,5 @@ main() {
 		pw[i] = mult(pw[i - 1], 10);
 	}
 	scanf("%I64d %I64d %d", &l, &r, &k);
-	printf("%d\n", solve(r));
+	printf("%d\n", add(solve(r), mod - solve(l - 1)));
 }
