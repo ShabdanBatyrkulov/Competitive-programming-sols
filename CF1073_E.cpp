@@ -78,8 +78,7 @@ int binpow(int a, int n) {
 	return res;
 }
 
-
-int solve(int x) {
+int get(ll x) {
 	memset(dp1, 0, sizeof dp1);
 	memset(dp2, 0, sizeof dp2);
 	memset(u1, 0, sizeof u1);
@@ -91,8 +90,22 @@ int solve(int x) {
 		len++;
 	}
 	reverse(num, num + len);
-	int res = calcdp2(0, 0, 1);
-	res = add(res, mult(pw[len - 1], mult(add(pw[len - 1], mod - 1), binpow(2, mod - 2))));
+	return calcdp2(0, 0, 1);
+}
+
+int solve(ll x) {
+	int res = get(x);
+	len--;
+	x = 0;
+	for (int i = 0; i < len; i++) {
+		x *= 10;
+		x += 9;
+	}
+	while (x > 0) {
+		res = add(res, get(x));
+		x /= 10;
+	}
+	
 	return res;
 }
 
@@ -104,6 +117,6 @@ main() {
 	for (int i = 1; i < 20; i++) {
 		pw[i] = mult(pw[i - 1], 10);
 	}
-	scanf("%I64d %I64d %d", &l, &r, &k);
+	scanf("%lld %lld %d", &l, &r, &k);
 	printf("%d\n", add(solve(r), mod - solve(l - 1)));
 }
