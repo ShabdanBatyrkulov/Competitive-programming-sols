@@ -10,6 +10,11 @@ using namespace std;
 const int inf = (int)1e9 + 7;
 
 int dp[1 << 20];
+/*
+dp[mask] = maximal coefficient which can be reached if we take cows in subset "mask"
+I took cows from top to bottom
+if current cow, which is not taken yet, can carry all who is above him, we will take him
+*/
 ll sum[1 << 20], sum1[1 << 20];
 int n, h;
 int a[20], b[20], c[20];
