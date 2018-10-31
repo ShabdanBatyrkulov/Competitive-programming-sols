@@ -13,6 +13,7 @@ int dp[1 << 20];
 /*
 dp[mask] = maximal coefficient which can be reached if we take cows in subset "mask"
 I took cows from top to bottom
+"top to bottom" means that I construct tower of cows starting from the top.
 if current cow, which is not taken yet, can carry all who is above him, we will take him
 */
 ll sum[1 << 20], sum1[1 << 20];
