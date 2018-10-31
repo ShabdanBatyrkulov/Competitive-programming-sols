@@ -10,6 +10,9 @@ const int inf = (int)1e9 + 7;
 
 int dp[N];
 deque < int > dq[100];
+/*
+dp[i] = maximal position from which contestants may occupy their "favourite" place
+*/
 
 ll conta(int S, int s[], int P, int p[])  {
 	for (int i = 0; i < P; i++) {
