@@ -2,6 +2,10 @@
 
 using namespace std;
 
+/*
+Editorial -> "https://www.oi.edu.pl/old/ioi/downloads/ioi2005-tasks-and-solutions-a5.pdf"
+*/
+
 #define ll long long
 
 const int N = (int)107;
