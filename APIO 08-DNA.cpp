@@ -10,6 +10,10 @@ int m, k;
 ll r;
 string s;
 ll dp[12][5][N];
+/*
+dp[i][j][k] = means that how many ways to get a i-form string in which last symbol is j(1 == 'A', 2 == 'C' etc.), up to position k.
+we can suppose that the k-form is k disjoint segments which cover whole string, and new segment starts when s[i - 1] > s[i]
+*/
 
 int turn(char c) {
 	if (c == 'A') return 1;
@@ -33,10 +37,16 @@ ll calc(int form, int ch, int pos) {
 	ll &res = dp[form][ch][pos];
 	if (res != -1) return res;
 	res = 0;
+	/*
+	transitions
+	*/
 	for (int i = 1; i <= 4; i++) {
 		if (s[pos] != 'N' && s[pos] != turn(i)) 
 			continue;
 		int newform = form;
+		/*
+		when ch > i it means starting of new segment
+		*/
 		if (ch > i)
 			newform--;
 		res += calc(newform, i, pos + 1);
@@ -56,10 +66,17 @@ main() {
 				int newform = form;
 				if (j < last) 
 					newform--;
-				//cout << newform << ' ' << turn(j) << ' '<< i << ' ' << calc(newform, j, i + 1) << '\n';
+				/* 
+				if dp[newform][j][i + 1] < r means that the number of strings in which we put a symbol j to the position i i, 
+				is less than we need, so it forces us to skip this symbol because out solution is not in this variants.
+				*/
 				if (calc(newform, j, i + 1) < r) {
 					r -= calc(newform, j, i + 1);
 				} else {
+				/*
+				but if we put symbol j, and the number of string is bigger, we should put that symbol there, and continue
+				search next symbol
+				*/
 					s[i] = turn(j);
 					break;
 				}
