@@ -20,7 +20,7 @@ int n, m;
 int pr[N], w[N];
 vector < int > gr[N];
 vector < int > order;
-int tiktak;
+int tiktak = 1;
 int tin[N], tout[N];
 int dp[N][M];
 
@@ -52,11 +52,11 @@ main() {
 			dp[r][j] = max(dp[r][j], dp[r - 1][j]);
 		}
 		for (int j = 1; j <= min(l, m); j++) {
-			dp[r][j] = max(dp[r][j], dp[l - 1][j - 1] + w[v]);
+			dp[r][j] = max(dp[r][j], dp[l - (l == r)][j - 1] + w[v]);
 		}
 	}
 	int res = 0;
-	for (int i = 1; i <= tiktak; i++) {
+	for (int i = 0; i <= tiktak; i++) {
 		res = max(res, dp[i][m]);
 	}
 	cout << res;
